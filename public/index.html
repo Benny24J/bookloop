@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookLoop — Discover, Buy & Sell Pre-Loved Books</title>
+  <meta name="description" content="BookLoop is an online community where readers discover books, connect with fellow bibliophiles, and buy and sell books directly.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Announcement / Verification Banner -->
+  <div id="payment-notification" class="notification-banner hidden">
+    <div class="notification-content">
+      <span class="notification-icon" id="notification-icon">✨</span>
+      <div class="notification-text">
+        <strong id="notification-title">Payment Verification</strong>
+        <p id="notification-desc">Checking payment status with Kora...</p>
+      </div>
+      <button class="close-banner-btn" id="close-banner" aria-label="Close notification">&times;</button>
+    </div>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="#" class="brand-logo" id="logo-link">
+        <span class="brand-icon">📚</span>
+        <span class="brand-name">BookLoop</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#discover" class="nav-item active">Discover</a>
+        <a href="#community" class="nav-item">Community</a>
+        <a href="#how-it-works" class="nav-item">How it Works</a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Kora Gateway Status Pill -->
+        <button id="gateway-status-pill" class="gateway-pill checking" title="Kora Payment Gateway Status">
+          <span class="status-dot"></span>
+          <span class="status-label">Kora Gateway</span>
+        </button>
+
+        <button id="open-list-modal" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Sell a Book
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-text-col">
+        <span class="hero-badge">🌿 Peer-to-Peer Book Exchange & Marketplace</span>
+        <h1 class="hero-title">Give beloved books a second life.</h1>
+        <p class="hero-subtitle">
+          Connect directly with fellow readers. Find rare editions, pass on your favorite paperbacks, and pay securely via Kora.
+        </p>
+
+        <!-- Search Bar -->
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder="Search by title, author, or keyword..." aria-label="Search books">
+          <button id="clear-search" class="clear-btn hidden" aria-label="Clear search">&times;</button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">2,400+</span>
+            <span class="stat-label">Books Cycled</span>
+          </div>
+          <div class="stat-separator"></div>
+          <div class="stat-item">
+            <span class="stat-number">₦4,200</span>
+            <span class="stat-label">Avg. Savings</span>
+          </div>
+          <div class="stat-separator"></div>
+          <div class="stat-item">
+            <span class="stat-number">Direct</span>
+            <span class="stat-label">Reader-to-Reader</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual-col">
+        <div class="featured-book-card-stack">
+          <div class="hero-floating-badge badge-top">⭐ Verified Sellers</div>
+          <div class="hero-book-preview">
+            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=700&q=80" alt="Featured Book" class="hero-book-img">
+            <div class="hero-book-meta">
+              <span class="hero-book-tag">Spotlight Deal</span>
+              <h4>Things Fall Apart</h4>
+              <p>Chinua Achebe • ₦3,500</p>
+              <button class="btn btn-sm btn-primary quick-buy-spotlight" data-id="book-1">Buy Now</button>
+            </div>
+          </div>
+          <div class="hero-floating-badge badge-bottom">🔒 Powered by Kora</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Marketplace / Discovery Section -->
+  <main class="main-content" id="discover">
+    <div class="container">
+      
+      <!-- Filter Bar -->
+      <div class="discovery-header">
+        <div class="section-heading">
+          <h2>Explore The Library</h2>
+          <p class="section-sub">Browse listings from community members across Nigeria & Africa</p>
+        </div>
+
+        <div class="filter-controls">
+          <span class="filter-label">Categories:</span>
+          <div class="category-pills" id="category-pills">
+            <button class="pill-btn active" data-category="all">All Books</button>
+            <button class="pill-btn" data-category="African Literature">African Literature</button>
+            <button class="pill-btn" data-category="Fiction">Fiction</button>
+            <button class="pill-btn" data-category="Non-Fiction">Non-Fiction</button>
+            <button class="pill-btn" data-category="Sci-Fi & Fantasy">Sci-Fi & Fantasy</button>
+            <button class="pill-btn" data-category="Personal Growth">Personal Growth</button>
+            <button class="pill-btn" data-category="Philosophy">Philosophy</button>
+            <button class="pill-btn" data-category="Community Listings">Community Listings</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Filter / Results Bar -->
+      <div class="results-meta-bar">
+        <span id="results-count">Showing all books</span>
+        <div class="sort-selector">
+          <label for="sort-by">Sort:</label>
+          <select id="sort-by">
+            <option value="featured">Featured First</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="newest">Recently Listed</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Book Grid -->
+      <div class="book-grid" id="book-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="no-results" class="empty-state hidden">
+        <div class="empty-icon">📖</div>
+        <h3>No books found matching your search</h3>
+        <p>Try clearing filters or search terms, or be the first to list this book!</p>
+        <button id="reset-filters-btn" class="btn btn-secondary">Reset Filters</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Reader Community Section -->
+  <section class="community-section" id="community">
+    <div class="container">
+      <div class="section-heading text-center">
+        <span class="section-badge">👥 Reader Circles</span>
+        <h2>Meet Fellow BookLoop Readers</h2>
+        <p class="section-sub">Discover readers who love the same genres, follow their shelves, and swap favorite reads.</p>
+      </div>
+
+      <div class="readers-grid" id="readers-grid">
+        <!-- Reader profile cards loaded dynamically -->
+      </div>
+
+      <div class="community-cta-card">
+        <div class="cta-text">
+          <h3>Got shelves full of stories waiting to be shared?</h3>
+          <p>List your pre-loved books in 60 seconds and connect directly with passionate book lovers.</p>
+        </div>
+        <button id="cta-sell-btn" class="btn btn-primary btn-lg">List a Book for Sale</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-section" id="how-it-works">
+    <div class="container">
+      <div class="section-heading text-center">
+        <span class="section-badge">💡 Simple & Safe</span>
+        <h2>How BookLoop Works</h2>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3>Browse or List</h3>
+          <p>Explore titles from fellow readers, or take a photo of your pre-loved book and list it in under a minute.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3>Seamless Kora Checkout</h3>
+          <p>Click "Buy Now" to checkout directly with Kora's secure payment infrastructure (card, bank transfer, mobile money).</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3>Connect & Deliver</h3>
+          <p>Once paid, connect with the seller to pick up or arrange dispatch. Keep good stories moving from shelf to shelf.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-col-main">
+        <div class="brand-logo">
+          <span class="brand-icon">📚</span>
+          <span class="brand-name">BookLoop</span>
+        </div>
+        <p class="footer-tagline">
+          The friendly neighborhood community for book lovers. Built for sustainable reading and direct peer-to-peer exchange.
+        </p>
+        <div class="kora-badge-pill">
+          <span>Official Payment Partner:</span>
+          <strong>Kora Payment Gateway</strong>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#discover">Browse Library</a></li>
+          <li><a href="#community">Community Readers</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#" id="footer-list-btn">List a Book</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Integration</h4>
+        <ul>
+          <li><a href="https://developers.korapay.com/" target="_blank" rel="noopener">Kora API Docs</a></li>
+          <li><a href="#" id="view-gateway-info-footer">Gateway Status</a></li>
+          <li><a href="/api/config" target="_blank">API Health Status</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <p>&copy; 2026 BookLoop Community. Hackathon MVP submission.</p>
+    </div>
+  </footer>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- 1. Book Details Modal -->
+  <div id="book-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-book-title">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="close-book-modal" aria-label="Close dialog">&times;</button>
+      
+      <div class="book-modal-body" id="book-modal-content">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Purchase / Checkout Modal (Kora Checkout Initiation) -->
+  <div id="checkout-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+    <div class="modal-card checkout-modal-card">
+      <button class="modal-close-btn" id="close-checkout-modal" aria-label="Close dialog">&times;</button>
+      
+      <div class="checkout-header">
+        <div class="checkout-badge">💳 Secure Kora Payment</div>
+        <h3 id="checkout-title">Complete Your Book Order</h3>
+        <p class="checkout-sub">You will be securely routed through Kora's checkout page to complete payment.</p>
+      </div>
+
+      <div class="checkout-summary" id="checkout-summary-box">
+        <!-- Book snapshot here -->
+      </div>
+
+      <!-- Kora Status Alert in Checkout -->
+      <div id="checkout-credentials-alert" class="credentials-warning hidden">
+        <div class="warning-icon">⚠️</div>
+        <div class="warning-text">
+          <strong>Kora API Credentials Required</strong>
+          <p>
+            The server's <code>KORAPAY_SECRET_KEY</code> is not yet configured. Please add your Kora test key to <code>.env</code> on the server to initialize actual payments.
+          </p>
+          <a href="https://developers.korapay.com/" target="_blank" class="warning-link">View Kora Developer Documentation &rarr;</a>
+        </div>
+      </div>
+
+      <form id="checkout-form" class="modal-form">
+        <div class="form-group">
+          <label for="buyer-name">Your Full Name</label>
+          <input type="text" id="buyer-name" required placeholder="e.g. Amara Okafor" autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="buyer-email">Email Address <span class="req">*</span></label>
+          <input type="email" id="buyer-email" required placeholder="name@example.com" autocomplete="email">
+          <small class="form-hint">Kora will send your official payment receipt to this email.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="buyer-phone">Phone Number (Optional)</label>
+          <input type="tel" id="buyer-phone" placeholder="e.g. +234 801 234 5678" autocomplete="tel">
+        </div>
+
+        <div class="checkout-security-notice">
+          <span>🔒 256-bit SSL encrypted. Payment managed by Kora.</span>
+        </div>
+
+        <div class="checkout-actions">
+          <button type="button" class="btn btn-secondary" id="cancel-checkout-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-checkout-submit" id="submit-checkout-btn">
+            <span class="btn-text">Pay Now with Kora &rarr;</span>
+            <span class="btn-spinner hidden"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. List a Book Modal (localStorage + server fallback) -->
+  <div id="list-book-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="list-modal-title">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="close-list-modal" aria-label="Close dialog">&times;</button>
+      
+      <div class="modal-heading">
+        <span class="modal-badge">📖 Sell to Fellow Readers</span>
+        <h3 id="list-modal-title">List a Book on BookLoop</h3>
+        <p class="modal-sub">Listings are stored locally and will immediately appear in the marketplace.</p>
+      </div>
+
+      <form id="list-book-form" class="modal-form">
+        <div class="form-row">
+          <div class="form-group flex-2">
+            <label for="list-title">Book Title <span class="req">*</span></label>
+            <input type="text" id="list-title" required placeholder="e.g. Half of a Yellow Sun">
+          </div>
+          <div class="form-group flex-1">
+            <label for="list-price">Price (NGN ₦) <span class="req">*</span></label>
+            <input type="number" id="list-price" required min="100" step="50" placeholder="e.g. 3500">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="list-author">Author <span class="req">*</span></label>
+            <input type="text" id="list-author" required placeholder="e.g. Chimamanda Ngozi Adichie">
+          </div>
+          <div class="form-group flex-1">
+            <label for="list-category">Category <span class="req">*</span></label>
+            <select id="list-category" required>
+              <option value="African Literature">African Literature</option>
+              <option value="Fiction">Fiction</option>
+              <option value="Non-Fiction">Non-Fiction</option>
+              <option value="Sci-Fi & Fantasy">Sci-Fi & Fantasy</option>
+              <option value="Personal Growth">Personal Growth</option>
+              <option value="Philosophy">Philosophy</option>
+              <option value="Mystery & Thriller">Mystery & Thriller</option>
+              <option value="Memoir & Biography">Memoir & Biography</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="list-condition">Book Condition</label>
+            <select id="list-condition">
+              <option value="Mint / Like New">Mint / Like New</option>
+              <option value="Gently Used" selected>Gently Used (Good spine, clean pages)</option>
+              <option value="Well-Loved">Well-Loved (Highlighted or minor shelf wear)</option>
+            </select>
+          </div>
+          <div class="form-group flex-1">
+            <label for="list-location">Your City / Location</label>
+            <input type="text" id="list-location" placeholder="e.g. Yaba, Lagos" value="Lagos, Nigeria">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="list-cover">Cover Image URL (Optional)</label>
+          <input type="url" id="list-cover" placeholder="Paste an image URL or leave blank for custom generated cover">
+        </div>
+
+        <div class="form-group">
+          <label for="list-desc">Short Description / Reader Notes</label>
+          <textarea id="list-desc" rows="3" placeholder="Tell buyers about this copy, highlights, notes, or why you loved reading it..."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="list-seller-name">Your Name <span class="req">*</span></label>
+            <input type="text" id="list-seller-name" required placeholder="e.g. Tunde Balogun">
+          </div>
+          <div class="form-group flex-1">
+            <label for="list-seller-email">Your Contact Email <span class="req">*</span></label>
+            <input type="email" id="list-seller-email" required placeholder="e.g. tunde@example.com">
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="cancel-list-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="submit-list-btn">Publish Listing</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. Kora Setup & Configuration Modal -->
+  <div id="kora-setup-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="kora-modal-title">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="close-kora-modal" aria-label="Close dialog">&times;</button>
+      
+      <div class="modal-heading">
+        <span class="modal-badge">⚙️ Developer & Gateway Status</span>
+        <h3 id="kora-modal-title">Kora Payment Gateway Integration</h3>
+        <p class="modal-sub">Official API integration specification & server credentials status.</p>
+      </div>
+
+      <div class="kora-status-card" id="gateway-status-detail">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="setup-instructions-box">
+        <h4>How to configure Kora in this deployment:</h4>
+        <ol>
+          <li>Sign up or login at <a href="https://korapay.com" target="_blank" rel="noopener">Kora Developer Portal</a>.</li>
+          <li>Navigate to <strong>Settings &rarr; API Keys & Webhooks</strong>.</li>
+          <li>Copy your <strong>Secret Key</strong> (starts with <code>sk_test_...</code> or <code>sk_live_...</code>).</li>
+          <li>Open the <code>.env</code> file in the project root:
+            <pre><code>KORAPAY_SECRET_KEY=sk_test_your_key_here
+KORAPAY_PUBLIC_KEY=pk_test_your_key_here
+PORT=3000</code></pre>
+          </li>
+          <li>Restart the Node.js server. BookLoop will immediately route purchases through Kora's live checkout!</li>
+        </ol>
+      </div>
+
+      <div class="endpoints-spec-box">
+        <h4>Integrated Official Kora Endpoints:</h4>
+        <ul>
+          <li><strong>Initialize Charge:</strong> <code>POST https://api.korapay.com/merchant/api/v1/charges/initialize</code></li>
+          <li><strong>Verify Transaction:</strong> <code>GET https://api.korapay.com/merchant/api/v1/charges/:reference</code></li>
+          <li><strong>Webhook Receiver:</strong> <code>POST /api/checkout/webhook</code></li>
+        </ul>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary" id="close-kora-info-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
