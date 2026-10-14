@@ -1,12 +1,3 @@
-/**
- * BookLoop — Frontend Application Logic
- * Peer-to-peer book marketplace with Kora payment integration
- */
-
-// ==========================================
-// 1. Initial Sample Books & Community Data
-// ==========================================
-
 const SAMPLE_BOOKS = [
   {
     id: 'book-1',
@@ -209,9 +200,6 @@ const COMMUNITY_READERS = [
   }
 ];
 
-// ==========================================
-// 2. Application State
-// ==========================================
 let allBooks = [];
 let activeCategory = 'all';
 let searchQuery = '';
@@ -222,9 +210,6 @@ let koraGatewayStatus = {
   message: 'Checking gateway status...'
 };
 
-// ==========================================
-// 3. DOM Elements
-// ==========================================
 const bookGrid = document.getElementById('book-grid');
 const noResultsState = document.getElementById('no-results');
 const searchInput = document.getElementById('search-input');
@@ -235,7 +220,6 @@ const resultsCount = document.getElementById('results-count');
 const resetFiltersBtn = document.getElementById('reset-filters-btn');
 const readersGrid = document.getElementById('readers-grid');
 
-// Modals
 const bookModal = document.getElementById('book-modal');
 const closeBookModal = document.getElementById('close-book-modal');
 const bookModalContent = document.getElementById('book-modal-content');
@@ -261,7 +245,6 @@ const closeKoraModalBtn = document.getElementById('close-kora-modal');
 const closeKoraInfoBtn = document.getElementById('close-kora-info-btn');
 const gatewayStatusPill = document.getElementById('gateway-status-pill');
 const gatewayStatusDetail = document.getElementById('gateway-status-detail');
-const viewGatewayInfoFooter = document.getElementById('view-gateway-info-footer');
 
 const paymentBanner = document.getElementById('payment-notification');
 const notificationIcon = document.getElementById('notification-icon');
@@ -269,9 +252,6 @@ const notificationTitle = document.getElementById('notification-title');
 const notificationDesc = document.getElementById('notification-desc');
 const closeBannerBtn = document.getElementById('close-banner');
 
-// ==========================================
-// 4. Initialization
-// ==========================================
 document.addEventListener('DOMContentLoaded', async () => {
   initStorage();
   renderReaders();
@@ -291,11 +271,9 @@ function initStorage() {
       userListings = [];
     }
   }
-  // Merge sample books and user-added books
   allBooks = [...userListings, ...SAMPLE_BOOKS];
 }
 
-// Check server Kora API configuration
 async function checkGatewayStatus() {
   try {
     const res = await fetch('/api/config');
@@ -316,7 +294,6 @@ async function checkGatewayStatus() {
       `;
     }
   } catch (err) {
-    console.warn('Could not contact config endpoint:', err);
     gatewayStatusPill.className = 'gateway-pill setup-required';
     gatewayStatusPill.innerHTML = `
       <span class="status-dot"></span>
@@ -325,7 +302,6 @@ async function checkGatewayStatus() {
   }
 }
 
-// Check if buyer just returned from Kora checkout redirect
 async function checkUrlPaymentVerification() {
   const urlParams = new URLSearchParams(window.location.search);
   const paymentState = urlParams.get('payment');
@@ -350,7 +326,6 @@ async function checkUrlPaymentVerification() {
       showBanner('⚠️', 'Verification Query Error', `Unable to verify reference #${reference}: ${err.message}`, 'warning');
     }
 
-    // Clean URL query params without reloading
     window.history.replaceState({}, document.title, window.location.pathname);
   }
 }
@@ -363,21 +338,15 @@ function showBanner(icon, title, desc, type = 'info') {
   paymentBanner.classList.remove('hidden');
 }
 
-// ==========================================
-// 5. Book Discovery & Rendering
-// ==========================================
-
 function applyFiltersAndRender() {
   let filtered = [...allBooks];
 
-  // 1. Category Filter
   if (activeCategory === 'Community Listings') {
     filtered = filtered.filter(b => b.isUserListing);
   } else if (activeCategory !== 'all') {
     filtered = filtered.filter(b => b.category.toLowerCase() === activeCategory.toLowerCase());
   }
 
-  // 2. Search Filter
   if (searchQuery.trim() !== '') {
     const q = searchQuery.toLowerCase().trim();
     filtered = filtered.filter(b => 
@@ -388,7 +357,6 @@ function applyFiltersAndRender() {
     );
   }
 
-  // 3. Sorting
   if (currentSort === 'price-low') {
     filtered.sort((a, b) => a.price - b.price);
   } else if (currentSort === 'price-high') {
@@ -419,7 +387,6 @@ function renderBooks(books) {
     card.className = 'book-card';
     card.setAttribute('data-id', book.id);
 
-    // Cover markup: use image or fallback styled book jacket
     let coverHtml = '';
     if (book.coverUrl && book.coverUrl.trim() !== '') {
       coverHtml = `
@@ -476,7 +443,6 @@ function renderBooks(books) {
   });
 }
 
-// Render community readers
 function renderReaders() {
   readersGrid.innerHTML = '';
   COMMUNITY_READERS.forEach(reader => {
@@ -510,10 +476,6 @@ function renderReaders() {
     readersGrid.appendChild(card);
   });
 }
-
-// ==========================================
-// 6. Book Details Modal
-// ==========================================
 
 function openBookDetails(bookId) {
   const book = allBooks.find(b => b.id === bookId);
@@ -572,7 +534,6 @@ function openBookDetails(bookId) {
     </div>
   `;
 
-  // Attach buy button inside modal
   document.getElementById('modal-buy-btn').addEventListener('click', () => {
     closeBookModalFn();
     startCheckoutFlow(book);
@@ -585,14 +546,9 @@ function closeBookModalFn() {
   bookModal.classList.add('hidden');
 }
 
-// ==========================================
-// 7. Kora Purchase & Checkout Flow
-// ==========================================
-
 function startCheckoutFlow(book) {
   selectedBook = book;
 
-  // Populate checkout summary box
   checkoutSummaryBox.innerHTML = `
     <div class="summary-details">
       <h4>${escapeHtml(book.title)}</h4>
@@ -603,14 +559,12 @@ function startCheckoutFlow(book) {
     </div>
   `;
 
-  // Show credential warning if Kora is not configured on server
   if (!koraGatewayStatus.koraConfigured) {
     checkoutCredentialsAlert.classList.remove('hidden');
   } else {
     checkoutCredentialsAlert.classList.add('hidden');
   }
 
-  // Pre-fill email or name if saved in session
   const savedEmail = localStorage.getItem('bookloop_buyer_email');
   const savedName = localStorage.getItem('bookloop_buyer_name');
   if (savedEmail) document.getElementById('buyer-email').value = savedEmail;
@@ -638,7 +592,6 @@ function setCheckoutLoading(isLoading) {
   }
 }
 
-// Submit checkout to server
 async function handleCheckoutSubmit(e) {
   e.preventDefault();
   if (!selectedBook) return;
@@ -651,7 +604,6 @@ async function handleCheckoutSubmit(e) {
     return;
   }
 
-  // Save for future convenience
   localStorage.setItem('bookloop_buyer_email', buyerEmail);
   localStorage.setItem('bookloop_buyer_name', buyerName);
 
@@ -677,19 +629,16 @@ async function handleCheckoutSubmit(e) {
 
     if (response.ok && data.success && data.checkoutUrl) {
       showToast('Redirecting to Kora payment gateway...', 'info');
-      // Redirect to Kora's checkout page
       setTimeout(() => {
         window.location.href = data.checkoutUrl;
       }, 700);
       return;
     }
 
-    // Handle Kora credentials missing on the server
     if (data.code === 'KORA_CREDENTIALS_REQUIRED' || !data.success) {
       setCheckoutLoading(false);
       showToast(data.message || 'Kora setup required.', 'error');
       
-      // Highlight the credentials box and open the setup modal
       checkoutCredentialsAlert.classList.remove('hidden');
       openKoraSetupModal();
       return;
@@ -698,13 +647,8 @@ async function handleCheckoutSubmit(e) {
   } catch (err) {
     setCheckoutLoading(false);
     showToast(`Checkout initialization failed: ${err.message}`, 'error');
-    console.error('Checkout error:', err);
   }
 }
-
-// ==========================================
-// 8. List a Book (Sell to Community)
-// ==========================================
 
 function openListBookModal() {
   listBookModal.classList.remove('hidden');
@@ -753,7 +697,6 @@ async function handleListBookSubmit(e) {
     createdAt: new Date().toISOString()
   };
 
-  // 1. Save to localStorage
   const storedListings = localStorage.getItem('bookloop_custom_listings');
   let userListings = [];
   if (storedListings) {
@@ -766,29 +709,22 @@ async function handleListBookSubmit(e) {
   userListings.unshift(newBook);
   localStorage.setItem('bookloop_custom_listings', JSON.stringify(userListings));
 
-  // 2. Also send to server API to keep synced
   try {
     fetch('/api/listings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newBook)
-    }).catch(err => console.warn('Could not sync listing with server:', err));
+    }).catch(() => {});
   } catch (e) {}
 
-  // 3. Update memory state & re-render
   allBooks.unshift(newBook);
   applyFiltersAndRender();
 
-  // Reset form and close
   listBookForm.reset();
   closeListBookModal();
 
   showToast(`"${title}" published to BookLoop marketplace!`, 'success');
 }
-
-// ==========================================
-// 9. Kora Gateway Status Modal
-// ==========================================
 
 function openKoraSetupModal() {
   const isConfigured = koraGatewayStatus.koraConfigured;
@@ -816,12 +752,7 @@ function closeKoraSetupModal() {
   koraSetupModal.classList.add('hidden');
 }
 
-// ==========================================
-// 10. Event Listeners
-// ==========================================
-
 function setupEventListeners() {
-  // Search input
   searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value;
     if (searchQuery.trim().length > 0) {
@@ -839,7 +770,6 @@ function setupEventListeners() {
     applyFiltersAndRender();
   });
 
-  // Category filter pills
   categoryPills.addEventListener('click', (e) => {
     const pill = e.target.closest('.pill-btn');
     if (!pill) return;
@@ -851,13 +781,11 @@ function setupEventListeners() {
     applyFiltersAndRender();
   });
 
-  // Sort selector
   sortBySelect.addEventListener('change', (e) => {
     currentSort = e.target.value;
     applyFiltersAndRender();
   });
 
-  // Reset filters button
   resetFiltersBtn.addEventListener('click', () => {
     searchInput.value = '';
     searchQuery = '';
@@ -871,7 +799,6 @@ function setupEventListeners() {
     applyFiltersAndRender();
   });
 
-  // Book grid delegated clicks (Details & Buy Now)
   bookGrid.addEventListener('click', (e) => {
     const actionEl = e.target.closest('[data-action]');
     if (!actionEl) return;
@@ -887,14 +814,12 @@ function setupEventListeners() {
     }
   });
 
-  // Hero spotlight quick buy
   document.querySelector('.quick-buy-spotlight')?.addEventListener('click', (e) => {
     const bookId = e.currentTarget.getAttribute('data-id');
     const book = allBooks.find(b => b.id === bookId);
     if (book) startCheckoutFlow(book);
   });
 
-  // Modals closing
   closeBookModal.addEventListener('click', closeBookModalFn);
   bookModal.addEventListener('click', (e) => {
     if (e.target === bookModal) closeBookModalFn();
@@ -908,7 +833,6 @@ function setupEventListeners() {
 
   checkoutForm.addEventListener('submit', handleCheckoutSubmit);
 
-  // Listing modal
   openListModalBtn.addEventListener('click', openListBookModal);
   closeListModalBtn.addEventListener('click', closeListBookModal);
   cancelListBtn.addEventListener('click', closeListBookModal);
@@ -928,24 +852,17 @@ function setupEventListeners() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // Kora Setup / Gateway status modal
   gatewayStatusPill.addEventListener('click', openKoraSetupModal);
-  viewGatewayInfoFooter?.addEventListener('click', (e) => {
-    e.preventDefault();
-    openKoraSetupModal();
-  });
   closeKoraModalBtn.addEventListener('click', closeKoraSetupModal);
   closeKoraInfoBtn.addEventListener('click', closeKoraSetupModal);
   koraSetupModal.addEventListener('click', (e) => {
     if (e.target === koraSetupModal) closeKoraSetupModal();
   });
 
-  // Notification banner close
   closeBannerBtn.addEventListener('click', () => {
     paymentBanner.classList.add('hidden');
   });
 
-  // Escape key closes open modals
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeBookModalFn();
@@ -955,10 +872,6 @@ function setupEventListeners() {
     }
   });
 }
-
-// ==========================================
-// 11. Utilities
-// ==========================================
 
 function showToast(message, type = 'info') {
   const container = document.getElementById('toast-container');

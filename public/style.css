@@ -1,8 +1,3 @@
-/* ===================================================================
-   BookLoop — Modern Book Community & Marketplace Stylesheet
-   Warm, book-inspired aesthetic: Parchment cream, forest green, terracotta
-   =================================================================== */
-
 :root {
   --bg-parchment: #F9F6F0;
   --bg-cream-card: #FFFFFF;
@@ -81,7 +76,6 @@ button, input, select, textarea {
   padding: 0 1.5rem;
 }
 
-/* ==================== BUTTONS ==================== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -129,7 +123,6 @@ button, input, select, textarea {
   font-size: 1.05rem;
 }
 
-/* ==================== NOTIFICATION BANNER ==================== */
 .notification-banner {
   background-color: var(--color-green-deep);
   color: #FFFFFF;
@@ -191,7 +184,6 @@ button, input, select, textarea {
   opacity: 1;
 }
 
-/* ==================== HEADER ==================== */
 .site-header {
   background-color: rgba(249, 246, 240, 0.94);
   backdrop-filter: blur(12px);
@@ -248,7 +240,6 @@ button, input, select, textarea {
   gap: 1rem;
 }
 
-/* Kora Gateway Pill */
 .gateway-pill {
   display: inline-flex;
   align-items: center;
@@ -295,7 +286,6 @@ button, input, select, textarea {
   box-shadow: var(--shadow-sm);
 }
 
-/* ==================== HERO SECTION ==================== */
 .hero-section {
   padding: 3.5rem 0 3rem;
   background: radial-gradient(circle at top right, rgba(42, 86, 64, 0.06), transparent 50%),
@@ -409,7 +399,6 @@ button, input, select, textarea {
   background-color: var(--border-warm);
 }
 
-/* Hero Book Stack Visual */
 .featured-book-card-stack {
   position: relative;
   display: flex;
@@ -492,7 +481,6 @@ button, input, select, textarea {
   color: var(--color-terracotta);
 }
 
-/* ==================== DISCOVERY / MARKETPLACE ==================== */
 .main-content {
   padding: 3.5rem 0;
 }
@@ -559,7 +547,6 @@ button, input, select, textarea {
   box-shadow: var(--shadow-sm);
 }
 
-/* Results Meta Bar */
 .results-meta-bar {
   display: flex;
   align-items: center;
@@ -587,7 +574,6 @@ button, input, select, textarea {
   cursor: pointer;
 }
 
-/* ==================== BOOK CARDS & GRID ==================== */
 .book-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
@@ -765,7 +751,6 @@ button, input, select, textarea {
   gap: 0.4rem;
 }
 
-/* Fallback CSS book cover */
 .book-cover-css-styled {
   width: 100%;
   height: 100%;
@@ -792,7 +777,6 @@ button, input, select, textarea {
   opacity: 0.85;
 }
 
-/* Empty State */
 .empty-state {
   text-align: center;
   padding: 4rem 1.5rem;
@@ -819,7 +803,6 @@ button, input, select, textarea {
   margin-bottom: 1.5rem;
 }
 
-/* ==================== COMMUNITY SECTION ==================== */
 .community-section {
   background-color: var(--bg-surface-warm);
   padding: 5rem 0;
@@ -935,7 +918,6 @@ button, input, select, textarea {
   color: var(--text-light);
 }
 
-/* Community CTA */
 .community-cta-card {
   background: linear-gradient(135deg, var(--color-green-deep) 0%, #10261C 100%);
   color: #FFFFFF;
@@ -970,7 +952,6 @@ button, input, select, textarea {
   background-color: var(--color-terracotta-light);
 }
 
-/* ==================== HOW IT WORKS ==================== */
 .how-section {
   padding: 4.5rem 0;
 }
@@ -1019,7 +1000,6 @@ button, input, select, textarea {
   line-height: 1.55;
 }
 
-/* ==================== FOOTER ==================== */
 .site-footer {
   background-color: #17261D;
   color: #E8E5DD;
@@ -1028,7 +1008,7 @@ button, input, select, textarea {
 
 .footer-container {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   gap: 3rem;
   margin-bottom: 3rem;
 }
@@ -1092,7 +1072,6 @@ button, input, select, textarea {
   color: #7A7469;
 }
 
-/* ==================== MODALS ==================== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -1180,7 +1159,6 @@ button, input, select, textarea {
   margin-bottom: 1.5rem;
 }
 
-/* Book Details Modal Layout */
 .book-modal-grid {
   display: grid;
   grid-template-columns: 220px 1fr;
@@ -1253,7 +1231,6 @@ button, input, select, textarea {
   border-top: 1px solid var(--border-warm);
 }
 
-/* Checkout Modal */
 .checkout-modal-card {
   max-width: 540px;
 }
@@ -1346,7 +1323,6 @@ button, input, select, textarea {
   text-decoration: underline;
 }
 
-/* Modal Form Controls */
 .modal-form {
   display: flex;
   flex-direction: column;
@@ -1420,7 +1396,6 @@ button, input, select, textarea {
   padding: 0.85rem;
 }
 
-/* Kora Status Detail & Instructions */
 .kora-status-card {
   background: var(--bg-surface-warm);
   border: 1px solid var(--border-warm);
@@ -1461,7 +1436,6 @@ button, input, select, textarea {
   font-size: 0.82rem;
 }
 
-/* Toast Container */
 .toast-container {
   position: fixed;
   bottom: 24px;
@@ -1494,7 +1468,6 @@ button, input, select, textarea {
   background-color: #1F455A;
 }
 
-/* Animations */
 @keyframes slideDown {
   from { transform: translateY(-100%); }
   to { transform: translateY(0); }
@@ -1514,7 +1487,6 @@ button, input, select, textarea {
   display: none !important;
 }
 
-/* Loading spinner */
 .btn-spinner {
   display: inline-block;
   width: 16px;
@@ -1529,7 +1501,6 @@ button, input, select, textarea {
   to { transform: rotate(360deg); }
 }
 
-/* ==================== RESPONSIVE ==================== */
 @media (max-width: 960px) {
   .hero-container {
     grid-template-columns: 1fr;

@@ -5,17 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BookLoop — Discover, Buy & Sell Pre-Loved Books</title>
   <meta name="description" content="BookLoop is an online community where readers discover books, connect with fellow bibliophiles, and buy and sell books directly.">
-  
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Announcement / Verification Banner -->
   <div id="payment-notification" class="notification-banner hidden">
     <div class="notification-content">
       <span class="notification-icon" id="notification-icon">✨</span>
@@ -27,7 +23,6 @@
     </div>
   </div>
 
-  <!-- Header / Navigation -->
   <header class="site-header">
     <div class="container header-container">
       <a href="#" class="brand-logo" id="logo-link">
@@ -42,7 +37,6 @@
       </nav>
 
       <div class="header-actions">
-        <!-- Kora Gateway Status Pill -->
         <button id="gateway-status-pill" class="gateway-pill checking" title="Kora Payment Gateway Status">
           <span class="status-dot"></span>
           <span class="status-label">Kora Gateway</span>
@@ -56,7 +50,6 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
   <section class="hero-section">
     <div class="container hero-container">
       <div class="hero-text-col">
@@ -66,7 +59,6 @@
           Connect directly with fellow readers. Find rare editions, pass on your favorite paperbacks, and pay securely via Kora.
         </p>
 
-        <!-- Search Bar -->
         <div class="search-box">
           <span class="search-icon">🔍</span>
           <input type="text" id="search-input" placeholder="Search by title, author, or keyword..." aria-label="Search books">
@@ -109,11 +101,9 @@
     </div>
   </section>
 
-  <!-- Main Marketplace / Discovery Section -->
   <main class="main-content" id="discover">
     <div class="container">
       
-      <!-- Filter Bar -->
       <div class="discovery-header">
         <div class="section-heading">
           <h2>Explore The Library</h2>
@@ -135,7 +125,6 @@
         </div>
       </div>
 
-      <!-- Active Filter / Results Bar -->
       <div class="results-meta-bar">
         <span id="results-count">Showing all books</span>
         <div class="sort-selector">
@@ -149,12 +138,9 @@
         </div>
       </div>
 
-      <!-- Book Grid -->
       <div class="book-grid" id="book-grid">
-        <!-- Rendered dynamically by app.js -->
       </div>
 
-      <!-- Empty State -->
       <div id="no-results" class="empty-state hidden">
         <div class="empty-icon">📖</div>
         <h3>No books found matching your search</h3>
@@ -165,7 +151,6 @@
     </div>
   </main>
 
-  <!-- Reader Community Section -->
   <section class="community-section" id="community">
     <div class="container">
       <div class="section-heading text-center">
@@ -175,7 +160,6 @@
       </div>
 
       <div class="readers-grid" id="readers-grid">
-        <!-- Reader profile cards loaded dynamically -->
       </div>
 
       <div class="community-cta-card">
@@ -188,7 +172,6 @@
     </div>
   </section>
 
-  <!-- How It Works Section -->
   <section class="how-section" id="how-it-works">
     <div class="container">
       <div class="section-heading text-center">
@@ -216,7 +199,6 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-container">
       <div class="footer-col-main">
@@ -242,36 +224,22 @@
           <li><a href="#" id="footer-list-btn">List a Book</a></li>
         </ul>
       </div>
-
-      <div class="footer-col">
-        <h4>Integration</h4>
-        <ul>
-          <li><a href="https://developers.korapay.com/" target="_blank" rel="noopener">Kora API Docs</a></li>
-          <li><a href="#" id="view-gateway-info-footer">Gateway Status</a></li>
-          <li><a href="/api/config" target="_blank">API Health Status</a></li>
-        </ul>
-      </div>
     </div>
     
     <div class="container footer-bottom">
-      <p>&copy; 2026 BookLoop Community. Hackathon MVP submission.</p>
+      <p>BookLoop Community</p>
     </div>
   </footer>
 
-  <!-- ==================== MODALS ==================== -->
-
-  <!-- 1. Book Details Modal -->
   <div id="book-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-book-title">
     <div class="modal-card">
       <button class="modal-close-btn" id="close-book-modal" aria-label="Close dialog">&times;</button>
       
       <div class="book-modal-body" id="book-modal-content">
-        <!-- Rendered dynamically by app.js -->
       </div>
     </div>
   </div>
 
-  <!-- 2. Purchase / Checkout Modal (Kora Checkout Initiation) -->
   <div id="checkout-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
     <div class="modal-card checkout-modal-card">
       <button class="modal-close-btn" id="close-checkout-modal" aria-label="Close dialog">&times;</button>
@@ -283,10 +251,8 @@
       </div>
 
       <div class="checkout-summary" id="checkout-summary-box">
-        <!-- Book snapshot here -->
       </div>
 
-      <!-- Kora Status Alert in Checkout -->
       <div id="checkout-credentials-alert" class="credentials-warning hidden">
         <div class="warning-icon">⚠️</div>
         <div class="warning-text">
@@ -330,7 +296,6 @@
     </div>
   </div>
 
-  <!-- 3. List a Book Modal (localStorage + server fallback) -->
   <div id="list-book-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="list-modal-title">
     <div class="modal-card">
       <button class="modal-close-btn" id="close-list-modal" aria-label="Close dialog">&times;</button>
@@ -417,7 +382,6 @@
     </div>
   </div>
 
-  <!-- 4. Kora Setup & Configuration Modal -->
   <div id="kora-setup-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="kora-modal-title">
     <div class="modal-card">
       <button class="modal-close-btn" id="close-kora-modal" aria-label="Close dialog">&times;</button>
@@ -429,7 +393,6 @@
       </div>
 
       <div class="kora-status-card" id="gateway-status-detail">
-        <!-- Rendered dynamically -->
       </div>
 
       <div class="setup-instructions-box">
@@ -462,7 +425,6 @@ PORT=3000</code></pre>
     </div>
   </div>
 
-  <!-- Toast Notification Container -->
   <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
   <script src="app.js"></script>

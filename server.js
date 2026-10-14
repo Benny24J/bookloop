@@ -11,17 +11,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// In-memory store for orders and listings during server session
 const orders = new Map();
 const customListings = [];
 
-// Helper to check if Kora keys are configured
 function isKoraConfigured() {
   const key = process.env.KORAPAY_SECRET_KEY;
   return Boolean(key && key.trim() !== '' && !key.includes('placeholder'));
 }
 
-// 1. API Status and Kora Configuration Check
 app.get('/api/config', (req, res) => {
   const configured = isKoraConfigured();
   res.json({
@@ -37,12 +34,10 @@ app.get('/api/config', (req, res) => {
   });
 });
 
-// 2. Initialize Kora Payment
 app.post('/api/checkout/initialize', async (req, res) => {
   try {
     const { bookId, bookTitle, amount, buyerName, buyerEmail, sellerName } = req.body;
 
-    // Validation
     if (!bookTitle || !amount || !buyerEmail) {
       return res.status(400).json({
         success: false,
@@ -50,7 +45,6 @@ app.post('/api/checkout/initialize', async (req, res) => {
       });
     }
 
-    // Verify if Kora API is configured
     if (!isKoraConfigured()) {
       return res.status(503).json({
         success: false,
@@ -69,8 +63,6 @@ app.post('/api/checkout/initialize', async (req, res) => {
     const appBaseUrl = process.env.APP_BASE_URL || `http://localhost:${PORT}`;
     const reference = `BOOKLOOP-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
-    // Payload for Kora Charge Initialization
-    // Ref: https://developers.korapay.com/
     const payload = {
       amount: Number(amount),
       currency: 'NGN',
@@ -107,7 +99,6 @@ app.post('/api/checkout/initialize', async (req, res) => {
       });
     }
 
-    // Cache order in memory
     orders.set(reference, {
       reference,
       bookId,
@@ -120,7 +111,6 @@ app.post('/api/checkout/initialize', async (req, res) => {
       createdAt: new Date().toISOString()
     });
 
-    // Kora returns { data: { checkout_url, reference } }
     res.json({
       success: true,
       reference: reference,
@@ -138,7 +128,6 @@ app.post('/api/checkout/initialize', async (req, res) => {
   }
 });
 
-// 3. Verify Payment Status with Kora
 app.get('/api/checkout/verify/:reference', async (req, res) => {
   try {
     const { reference } = req.params;
@@ -181,7 +170,6 @@ app.get('/api/checkout/verify/:reference', async (req, res) => {
     const txData = data.data;
     const isPaid = txData.status === 'success';
 
-    // Update local order cache
     if (orders.has(reference)) {
       const order = orders.get(reference);
       order.status = txData.status;
@@ -212,7 +200,6 @@ app.get('/api/checkout/verify/:reference', async (req, res) => {
   }
 });
 
-// 4. Kora Webhook Listener (optional endpoint for asynchronous status updates)
 app.post('/api/checkout/webhook', (req, res) => {
   try {
     const event = req.body;
@@ -227,7 +214,6 @@ app.post('/api/checkout/webhook', (req, res) => {
       }
     }
 
-    // Acknowledge Kora webhook with 200 OK
     res.status(200).json({ received: true });
   } catch (err) {
     console.error('[Kora Webhook Error]', err);
@@ -235,7 +221,6 @@ app.post('/api/checkout/webhook', (req, res) => {
   }
 });
 
-// 5. Custom Book Listings Endpoint (Memory fallback)
 app.get('/api/listings', (req, res) => {
   res.json({ listings: customListings });
 });
@@ -268,7 +253,6 @@ app.post('/api/listings', (req, res) => {
   res.status(201).json({ success: true, book: newBook });
 });
 
-// Fallback route for SPA
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
