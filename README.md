@@ -1,10 +1,10 @@
-# 📚 BookLoop — Peer-to-Peer Book Community & Marketplace
+#  BookLoop — Peer-to-Peer Book Community & Marketplace
 
 > **Give beloved stories a second life.** BookLoop connects passionate readers to discover books, connect over shared genres, and securely buy and sell pre-loved books directly from one another using **Kora Payment Gateway**.
 
 ---
 
-## 🚀 Problem & Solution
+##  Problem & Solution
 
 ### The Problem
 * **Idle Shelves & Waste:** Millions of good books sit dormant on personal shelves after a single read, while other readers struggle to find affordable copies or rare editions.
@@ -18,7 +18,7 @@
 
 ---
 
-## ✨ Core Features
+##  Core Features
 
 1. **Curated Library & Showcase:**
    - Display sample and community books with high-resolution covers, authors, condition ratings, and prices in Nigerian Naira (₦).
@@ -29,28 +29,24 @@
 3. **Interactive Book Details & Seller Verification:**
    - Detailed modal showing seller reputation, location, condition inspection notes, ISBN, and direct purchase action.
 4. **Official Kora Payment Checkout Flow:**
-   - Server-side initialization via Kora's `POST /merchant/api/v1/charges/initialize`.
+   - Server-side initialization .
    - Seamless buyer redirection to Kora's checkout page.
-   - Server-side transaction verification via `GET /merchant/api/v1/charges/:reference`.
-   - Clear setup feedback if API keys are pending (no fake or simulated successful transactions).
-5. **List a Book for Sale:**
-   - Modal form enabling any community member to list a book with title, price, condition, photo, and seller contact.
-   - Persists in `localStorage` and syncs with backend API.
-6. **Reader Circles Community:**
+   - Server-side transaction verification.
+5. **Reader Circles Community:**
    - Reader profiles highlighting reading lists, badges (*Shelf Curator, Sci-Fi Pioneer, Avid Reader*), and books exchanged.
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 * **Frontend:** Clean Semantic HTML5, Vanilla JavaScript (ES6+), Vanilla CSS with CSS Custom Properties, Fraunces serif and Plus Jakarta Sans typography.
 * **Backend:** Node.js, Express.js.
-* **Payment Gateway:** Kora API (`https://api.korapay.com/merchant/api/v1`).
-* **Environment Management:** `dotenv` (strict server-side credential isolation).
+* **Payment Gateway:** Kora API .
+* **Environment Management:** `dotenv`
 
 ---
 
-## 💳 Kora Payment Integration Architecture
+##  Kora Payment Integration Architecture
 
 BookLoop follows Kora's security best practices by strictly isolating secrets on the server:
 
@@ -72,14 +68,10 @@ BookLoop follows Kora's security best practices by strictly isolating secrets on
 [Buyer Browser] <──(7) Order Marked "PAID" Verified ──────────── [Kora API Gateway]
 ```
 
-### Official Endpoints Implemented:
-* **Charge Initialization:** `POST https://api.korapay.com/merchant/api/v1/charges/initialize`
-* **Charge Verification:** `GET https://api.korapay.com/merchant/api/v1/charges/:reference`
-* **Webhook Listener:** `POST /api/checkout/webhook`
 
 ---
 
-## 📦 Setup & Installation Instructions
+##  Setup & Installation Instructions
 
 ### Prerequisites
 * [Node.js](https://nodejs.org/) (v18 or higher recommended)
@@ -120,13 +112,6 @@ npm run dev
 ```
 
 Open your browser at **`http://localhost:3000`**.
-
----
-
-## 🔒 Security Notice
-* Secret keys (`KORAPAY_SECRET_KEY`) are kept strictly on the Node.js server.
-* `.env` is ignored in `.gitignore` to prevent leaking credentials to public repositories.
-* All buyer transactions are verified against the Kora API before confirming order payment status.
 
 ---
 
