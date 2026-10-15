@@ -480,16 +480,21 @@ function renderBooks(books) {
 
     card.innerHTML = `
       <div class="book-cover-wrap" data-action="view-details" data-id="${book.id}">
+        <div class="book-spine-crease"></div>
         ${coverHtml}
-        <span class="pdf-format-badge">📄 Digital PDF</span>
+        <span class="pdf-format-badge">Digital PDF</span>
       </div>
 
       <div class="book-meta">
-        <span class="book-genre">${escapeHtml(book.category)}</span>
+        <div class="book-genre-stamp">${escapeHtml(book.category)}</div>
         <h3 class="book-title" data-action="view-details" data-id="${book.id}">${escapeHtml(book.title)}</h3>
         <p class="book-author">by ${escapeHtml(book.author)}</p>
 
-        <p class="book-snippet">${escapeHtml(book.nostalgiaNote || book.description || '')}</p>
+        <div class="book-memo-card">
+          <div class="memo-tape"></div>
+          <span class="memo-label">Student Reading Note:</span>
+          <p class="book-snippet handwritten-note">"${escapeHtml(book.nostalgiaNote || book.description || '')}"</p>
+        </div>
 
         <div class="book-seller-row">
           <div class="seller-info">
@@ -577,11 +582,15 @@ function renderMarqueeShelf() {
     }
 
     item.innerHTML = `
+      <div class="marquee-book-spine"></div>
       ${imgHtml}
       <div class="marquee-info">
         <h5 title="${escapeHtml(book.title)}">${escapeHtml(book.title)}</h5>
-        <p>${escapeHtml(book.author)}</p>
-        <span class="marquee-price">₦${Number(book.price).toLocaleString()}</span>
+        <p class="marquee-author">by ${escapeHtml(book.author)}</p>
+        <div class="marquee-details-row">
+          <span class="marquee-price">₦${Number(book.price).toLocaleString()}</span>
+          <span class="marquee-stamp-tag">Circulating</span>
+        </div>
       </div>
     `;
 
@@ -973,9 +982,10 @@ function openBookDetails(bookId) {
         <p class="modal-book-desc">${escapeHtml(book.description)}</p>
 
         ${book.nostalgiaNote ? `
-          <div class="nostalgia-quote-box">
-            <strong>Reader Note:</strong>
-            <p>"${escapeHtml(book.nostalgiaNote)}"</p>
+          <div class="nostalgia-quote-box" style="position:relative; background:#FFFDF7; border:1px solid #E8DEC8; border-radius:5px; padding:0.9rem 1.1rem; margin:1rem 0;">
+            <div class="memo-tape"></div>
+            <strong style="font-family:var(--font-serif); font-size:0.75rem; letter-spacing:0.06em; text-transform:uppercase; color:#8C552A; display:block; margin-bottom:0.25rem;">Secondary School Reader Note:</strong>
+            <p style="font-family:var(--font-handwriting); font-size:1.25rem; color:#221E1A; line-height:1.4; margin:0;">"${escapeHtml(book.nostalgiaNote)}"</p>
           </div>
         ` : ''}
 

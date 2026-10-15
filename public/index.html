@@ -7,7 +7,7 @@
   <meta name="description" content="Discover forgotten favorites, share authorized digital PDF books, and discuss stories with fellow readers.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
   <!-- Top Notification / Verified Payment Banner -->
   <div id="payment-notification" class="notification-banner hidden">
     <div class="notification-content">
-      <span class="notification-icon" id="notification-icon">✨</span>
+      <span class="notification-icon" id="notification-icon">✦</span>
       <div class="notification-text">
         <strong id="notification-title">Order Status</strong>
         <p id="notification-desc">Confirming your purchase...</p>
@@ -28,8 +28,18 @@
   <header class="site-header">
     <div class="container header-container">
       <a href="#" class="brand-logo" id="logo-link">
-        <span class="brand-icon">📚</span>
-        <span class="brand-name">BookLoop</span>
+        <div class="brand-monogram">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            <path d="M8 7h8"></path>
+            <path d="M8 11h6"></path>
+          </svg>
+        </div>
+        <div class="brand-text-block">
+          <span class="brand-name">BookLoop</span>
+          <span class="brand-tagline">Secondary School Reading Chain</span>
+        </div>
       </a>
 
       <nav class="nav-links">
@@ -40,7 +50,7 @@
 
       <div class="header-actions">
         <button id="open-list-modal" class="btn btn-primary">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           Share a Book
         </button>
       </div>
@@ -51,49 +61,82 @@
   <section class="hero-section">
     <div class="container hero-container">
       <div class="hero-text-col">
+        <div class="hero-heritage-badge">
+          <span class="heritage-dot"></span>
+          <span>EST. FOR BIBLIOPHILES • THE DIGITAL PASS-IT-ON ARCHIVE</span>
+        </div>
+
         <h1 class="hero-title">Rediscover the books that shaped you.</h1>
         <p class="hero-subtitle">
-          Remember borrowing a dog-eared paperback from a friend, reading it under the desk, and passing it to the next reader? BookLoop recreates that feeling online. Discover forgotten favorites, read digital PDF editions, and share personal reading notes with fellow book lovers.
+          Remember borrowing a dog-eared paperback from a friend, reading it under the desk during prep, and passing it to the next reader? BookLoop recreates that feeling online. Discover forgotten favorites, read digital PDF editions, and share personal reading memories.
         </p>
 
         <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="search-input" placeholder="Search titles, authors, or literary classics..." aria-label="Search books">
+          <span class="search-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </span>
+          <input type="text" id="search-input" placeholder="Search by title, author, or curriculum classic..." aria-label="Search books">
           <button id="clear-search" class="clear-btn hidden" aria-label="Clear search">&times;</button>
         </div>
 
-        <div class="hero-stats">
-          <div class="stat-item">
-            <span class="stat-number">1,400+</span>
-            <span class="stat-label">Active Readers</span>
+        <!-- Whimsical School Library Lending Ledger (Replacing generic stats) -->
+        <div class="lending-slip-card">
+          <div class="lending-slip-header">
+            <span class="slip-stamp-mini">CIRCULATION LEDGER</span>
+            <span class="slip-card-no">CARD NO. 042 / PREP EDITION</span>
           </div>
-          <div class="stat-separator"></div>
-          <div class="stat-item">
-            <span class="stat-number">850+</span>
-            <span class="stat-label">Digital Editions</span>
-          </div>
-          <div class="stat-separator"></div>
-          <div class="stat-item">
-            <span class="stat-number">Instant</span>
-            <span class="stat-label">PDF Delivery</span>
+          <div class="lending-slip-table">
+            <div class="slip-row slip-head">
+              <span>DATE</span>
+              <span>BORROWER</span>
+              <span>READER MEMORY</span>
+            </div>
+            <div class="slip-row">
+              <span class="slip-mono">14 OCT '98</span>
+              <span class="slip-handwritten">Folake A. (SS2)</span>
+              <span class="slip-handwritten note">Cover held with cello-tape</span>
+            </div>
+            <div class="slip-row">
+              <span class="slip-mono">03 FEB '04</span>
+              <span class="slip-handwritten">Emeka N. (Form 3B)</span>
+              <span class="slip-handwritten note">Torchlight reading in the dormitory</span>
+            </div>
+            <div class="slip-row active-borrower">
+              <span class="slip-mono">TODAY</span>
+              <span class="slip-handwritten highlight">You & The Community</span>
+              <span class="slip-badge-status">In Your Hands • Digital PDF</span>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="hero-visual-col">
         <div class="featured-book-card-stack">
+          <!-- Physical book presentation with realistic cloth spine, bookmark ribbon & taped student memo -->
           <div class="hero-book-preview" id="spotlight-card">
+            <div class="bookmark-ribbon"></div>
+            <div class="vintage-stamp">CERTIFIED CLASSIC</div>
+
             <!-- Dynamic cycling spotlight rendered by app.js -->
             <div id="spotlight-content" class="spotlight-fade-wrap">
-              <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=700&q=80" alt="Featured Book" class="hero-book-img" id="spotlight-img">
+              <div class="spotlight-cover-frame">
+                <div class="book-cloth-spine"></div>
+                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=700&q=80" alt="Featured Book" class="hero-book-img" id="spotlight-img">
+              </div>
+
               <div class="hero-book-meta">
-                <span class="hero-book-tag" id="spotlight-tag">Community Favorite</span>
-                <h4 id="spotlight-title">Things Fall Apart</h4>
-                <p class="hero-book-author" id="spotlight-author">Chinua Achebe • ₦3,500</p>
-                <p class="hero-book-quote" id="spotlight-quote">"Passed around prep until the cover was cello-taped. Essential reading."</p>
-                <button class="btn btn-sm btn-primary quick-buy-spotlight" id="spotlight-action-btn" data-id="book-1">Get PDF Edition</button>
+                <div class="taped-reader-memo">
+                  <div class="washi-tape-strip"></div>
+                  <span class="hero-book-tag" id="spotlight-tag">Community Favorite</span>
+                  <h4 id="spotlight-title">Things Fall Apart</h4>
+                  <p class="hero-book-author" id="spotlight-author">Chinua Achebe • ₦3,500</p>
+                  <p class="hero-book-quote handwritten-quote" id="spotlight-quote">"Passed around prep until the cover was cello-taped. Essential reading."</p>
+                </div>
+
+                <button class="btn btn-primary quick-buy-spotlight" id="spotlight-action-btn" data-id="book-1">Get PDF Edition</button>
               </div>
             </div>
+
             <!-- Spotlight carousel navigation dots & controls -->
             <div class="spotlight-controls">
               <button class="spotlight-nav-btn prev" id="spotlight-prev" aria-label="Previous book">‹</button>
@@ -110,8 +153,9 @@
   <section class="passing-shelf-section" aria-label="Books currently circulating in the community">
     <div class="container">
       <div class="passing-shelf-label">
-        <span class="passing-pulse-dot"></span>
-        <span class="passing-shelf-title">In Circulation Right Now • Passing From Reader to Reader</span>
+        <span class="shelf-fleuron">❦</span>
+        <span class="passing-shelf-title">The Lending Shelf • Passing Hand to Hand Right Now</span>
+        <span class="shelf-fleuron">❦</span>
       </div>
     </div>
     <div class="marquee-wrapper">
@@ -178,12 +222,12 @@
     <div class="container">
       <div class="community-header-row">
         <div class="section-heading">
-          <span class="section-badge">☕ The Common Room</span>
-          <h2>Reader Memories & Discussions</h2>
+          <span class="section-badge">✦ THE COMMON ROOM ✦</span>
+          <h2>Reader Memories & Dormitory Discussions</h2>
           <p class="section-sub">Share memories of books that stayed with you, debate storylines, post recommendations, and talk with readers who love the exact same stories.</p>
         </div>
         <button id="open-discussion-modal" class="btn btn-primary">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           Share a Book Memory
         </button>
       </div>
@@ -203,8 +247,8 @@
 
       <div class="community-cta-card">
         <div class="cta-text">
-          <h3>Have a digital book you would love to share?</h3>
-          <p>List it on BookLoop in under 60 seconds. Add your personal reader note and earn directly from fellow book lovers.</p>
+          <h3>Have a beloved digital book you would love to pass on?</h3>
+          <p>List it on BookLoop in under 60 seconds. Add your personal secondary school reading note and earn directly from fellow book lovers.</p>
         </div>
         <button id="cta-sell-btn" class="btn btn-primary btn-lg">Share a Book</button>
       </div>
@@ -215,26 +259,26 @@
   <section class="how-section" id="how-it-works">
     <div class="container">
       <div class="section-heading text-center">
-        <span class="section-badge">💡 Simple & Safe</span>
-        <h2>How BookLoop Works</h2>
-        <p class="section-sub">Sharing the love of reading, made effortless.</p>
+        <span class="section-badge">❧ THE CIRCULATION CYCLE ❧</span>
+        <h2>How The Reading Chain Works</h2>
+        <p class="section-sub">Passing literature from hand to hand, rekindled in digital format.</p>
       </div>
 
       <div class="steps-grid">
         <div class="step-card">
-          <div class="step-num">1</div>
+          <div class="step-chapter-label">Chapter I</div>
           <h3>Discover or Share</h3>
-          <p>Browse curated community listings or list a digital PDF book with your own personal reading reflection.</p>
+          <p>Browse curated school classics and African literature, or list a digital PDF edition with your personal reading memories.</p>
         </div>
         <div class="step-card">
-          <div class="step-num">2</div>
-          <h3>Secure Checkout</h3>
-          <p>Quick, safe payment with card, bank transfer, or USSD. Sellers receive their earnings automatically.</p>
+          <div class="step-chapter-label">Chapter II</div>
+          <h3>Direct Payout Checkout</h3>
+          <p>Seamless checkout via card or bank transfer. The community seller automatically receives 95% straight to their Nigerian bank.</p>
         </div>
         <div class="step-card">
-          <div class="step-num">3</div>
+          <div class="step-chapter-label">Chapter III</div>
           <h3>Instant PDF & Discussion</h3>
-          <p>Download and read your digital edition immediately, and share your thoughts in The Common Room.</p>
+          <p>Download and read your digital edition immediately, then pass your thoughts to other readers in The Common Room.</p>
         </div>
       </div>
     </div>
@@ -245,7 +289,12 @@
     <div class="container footer-container">
       <div class="footer-col-main">
         <div class="brand-logo">
-          <span class="brand-icon">📚</span>
+          <div class="brand-monogram">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
           <span class="brand-name">BookLoop</span>
         </div>
         <p class="footer-tagline">
