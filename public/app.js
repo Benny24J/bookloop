@@ -325,6 +325,8 @@ function isBookPurchased(bookId) {
 document.addEventListener('DOMContentLoaded', async () => {
   initStorage();
   renderReaders();
+  renderMarqueeShelf();
+  initSpotlightCycling();
   setupEventListeners();
   await loadDiscussions();
   checkUrlPaymentVerification();
@@ -548,6 +550,203 @@ function renderReaders() {
 
     readersGrid.appendChild(card);
   });
+}
+
+// Moving Book Shelf Ribbon (Infinite Marquee)
+function renderMarqueeShelf() {
+  const marqueeTrack = document.getElementById('marquee-track');
+  if (!marqueeTrack || !allBooks || allBooks.length === 0) return;
+
+  marqueeTrack.innerHTML = '';
+  // Duplicate books so the -50% CSS translate animation loops infinitely and seamlessly
+  const displayBooks = [...allBooks, ...allBooks];
+
+  displayBooks.forEach((book) => {
+    const item = document.createElement('div');
+    item.className = 'marquee-book-item';
+    item.setAttribute('data-id', book.id);
+    item.setAttribute('role', 'button');
+    item.setAttribute('tabindex', '0');
+    item.setAttribute('aria-label', `View details for ${book.title}`);
+
+    let imgHtml = '';
+    if (book.coverUrl && book.coverUrl.trim() !== '') {
+      imgHtml = `<img src="${escapeHtml(book.coverUrl)}" alt="${escapeHtml(book.title)}" class="marquee-img" loading="lazy" onerror="this.onerror=null;this.style.display='none';">`;
+    } else {
+      imgHtml = `<div class="marquee-img" style="background:var(--color-green-deep);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;">📖</div>`;
+    }
+
+    item.innerHTML = `
+      ${imgHtml}
+      <div class="marquee-info">
+        <h5 title="${escapeHtml(book.title)}">${escapeHtml(book.title)}</h5>
+        <p>${escapeHtml(book.author)}</p>
+        <span class="marquee-price">₦${Number(book.price).toLocaleString()}</span>
+      </div>
+    `;
+
+    item.addEventListener('click', () => {
+      openBookDetails(book.id);
+    });
+
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openBookDetails(book.id);
+      }
+    });
+
+    marqueeTrack.appendChild(item);
+  });
+}
+
+// Hero Dynamic Book Spotlight Carousel
+let spotlightTimer = null;
+let currentSpotlightIndex = 0;
+
+function initSpotlightCycling() {
+  const spotlightCard = document.getElementById('spotlight-card');
+  const spotlightContent = document.getElementById('spotlight-content');
+  const spotlightDots = document.getElementById('spotlight-dots');
+  const prevBtn = document.getElementById('spotlight-prev');
+  const nextBtn = document.getElementById('spotlight-next');
+  const actionBtn = document.getElementById('spotlight-action-btn');
+
+  if (!spotlightCard || !spotlightContent) return;
+
+  // Selected featured favorites: Things Fall Apart, Diary of a Wimpy Kid, Half of a Yellow Sun, Arrow of Destiny, Faceless
+  const spotlightOrder = ['book-1', 'book-6', 'book-2', 'book-5', 'book-7'];
+  let spotlightBooks = spotlightOrder
+    .map(id => allBooks.find(b => b.id === id))
+    .filter(Boolean);
+
+  if (spotlightBooks.length === 0) {
+    spotlightBooks = allBooks.slice(0, 5);
+  }
+
+  // Render navigation dots
+  if (spotlightDots) {
+    spotlightDots.innerHTML = '';
+    spotlightBooks.forEach((_, idx) => {
+      const dot = document.createElement('button');
+      dot.className = `spotlight-dot ${idx === 0 ? 'active' : ''}`;
+      dot.setAttribute('aria-label', `Go to slide ${idx + 1}`);
+      dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        goToSpotlight(idx);
+        startAutoplay();
+      });
+      spotlightDots.appendChild(dot);
+    });
+  }
+
+  function updateSpotlightView(index) {
+    currentSpotlightIndex = index;
+    const book = spotlightBooks[currentSpotlightIndex];
+    if (!book) return;
+
+    spotlightContent.classList.add('fading');
+
+    setTimeout(() => {
+      const imgEl = document.getElementById('spotlight-img');
+      const tagEl = document.getElementById('spotlight-tag');
+      const titleEl = document.getElementById('spotlight-title');
+      const authorEl = document.getElementById('spotlight-author');
+      const quoteEl = document.getElementById('spotlight-quote');
+
+      if (imgEl && book.coverUrl) {
+        imgEl.src = book.coverUrl;
+        imgEl.alt = book.title;
+      }
+      if (tagEl) {
+        tagEl.textContent = book.isUserListing ? 'Community Listing' : (book.category || 'School Classic');
+      }
+      if (titleEl) titleEl.textContent = book.title;
+      if (authorEl) authorEl.textContent = `${book.author} • ₦${Number(book.price).toLocaleString()}`;
+      if (quoteEl) {
+        quoteEl.textContent = book.nostalgiaNote ? `"${book.nostalgiaNote}"` : `"${book.description}"`;
+      }
+
+      if (actionBtn) {
+        actionBtn.setAttribute('data-id', book.id);
+        const purchased = isBookPurchased(book.id);
+        actionBtn.textContent = purchased ? '📖 Read PDF' : 'Get PDF Edition';
+        actionBtn.className = `btn btn-sm ${purchased ? 'btn-purchased' : 'btn-primary'} quick-buy-spotlight`;
+      }
+
+      // Update active dot
+      if (spotlightDots) {
+        const dots = spotlightDots.querySelectorAll('.spotlight-dot');
+        dots.forEach((dot, dIdx) => {
+          dot.classList.toggle('active', dIdx === currentSpotlightIndex);
+        });
+      }
+
+      spotlightContent.classList.remove('fading');
+    }, 220);
+  }
+
+  function goToSpotlight(index) {
+    let nextIdx = index;
+    if (nextIdx < 0) nextIdx = spotlightBooks.length - 1;
+    if (nextIdx >= spotlightBooks.length) nextIdx = 0;
+    updateSpotlightView(nextIdx);
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    spotlightTimer = setInterval(() => {
+      goToSpotlight(currentSpotlightIndex + 1);
+    }, 4500);
+  }
+
+  function stopAutoplay() {
+    if (spotlightTimer) {
+      clearInterval(spotlightTimer);
+      spotlightTimer = null;
+    }
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goToSpotlight(currentSpotlightIndex - 1);
+      startAutoplay();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goToSpotlight(currentSpotlightIndex + 1);
+      startAutoplay();
+    });
+  }
+
+  // Hover pauses autoplay, leaving resumes
+  spotlightCard.addEventListener('mouseenter', stopAutoplay);
+  spotlightCard.addEventListener('mouseleave', startAutoplay);
+
+  // Clicking the spotlight card (except buttons) opens the book details modal
+  spotlightContent.addEventListener('click', (e) => {
+    if (e.target.closest('button')) return;
+    const currentBook = spotlightBooks[currentSpotlightIndex];
+    if (currentBook) openBookDetails(currentBook.id);
+  });
+
+  // Action button click in spotlight
+  actionBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const currentBook = spotlightBooks[currentSpotlightIndex];
+    if (!currentBook) return;
+    if (isBookPurchased(currentBook.id)) {
+      openPdfAccessModal(currentBook);
+    } else {
+      startCheckoutFlow(currentBook);
+    }
+  });
+
+  startAutoplay();
 }
 
 // Community Discussions ("The Common Room") Logic
@@ -1052,6 +1251,7 @@ async function handleListBookSubmit(e) {
 
   allBooks.unshift(newBook);
   applyFiltersAndRender();
+  renderMarqueeShelf();
 
   listBookForm.reset();
   closeListBookModal();

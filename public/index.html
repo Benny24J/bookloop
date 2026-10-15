@@ -82,17 +82,41 @@
 
       <div class="hero-visual-col">
         <div class="featured-book-card-stack">
-          <div class="hero-book-preview">
-            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=700&q=80" alt="Featured Book" class="hero-book-img">
-            <div class="hero-book-meta">
-              <span class="hero-book-tag">Community Favorite</span>
-              <h4>Things Fall Apart</h4>
-              <p class="hero-book-author">Chinua Achebe • ₦3,500</p>
-              <p class="hero-book-quote">"Passed around prep until the cover was cello-taped. Essential reading."</p>
-              <button class="btn btn-sm btn-primary quick-buy-spotlight" data-id="book-1">Get PDF Edition</button>
+          <div class="hero-book-preview" id="spotlight-card">
+            <!-- Dynamic cycling spotlight rendered by app.js -->
+            <div id="spotlight-content" class="spotlight-fade-wrap">
+              <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=700&q=80" alt="Featured Book" class="hero-book-img" id="spotlight-img">
+              <div class="hero-book-meta">
+                <span class="hero-book-tag" id="spotlight-tag">Community Favorite</span>
+                <h4 id="spotlight-title">Things Fall Apart</h4>
+                <p class="hero-book-author" id="spotlight-author">Chinua Achebe • ₦3,500</p>
+                <p class="hero-book-quote" id="spotlight-quote">"Passed around prep until the cover was cello-taped. Essential reading."</p>
+                <button class="btn btn-sm btn-primary quick-buy-spotlight" id="spotlight-action-btn" data-id="book-1">Get PDF Edition</button>
+              </div>
+            </div>
+            <!-- Spotlight carousel navigation dots & controls -->
+            <div class="spotlight-controls">
+              <button class="spotlight-nav-btn prev" id="spotlight-prev" aria-label="Previous book">‹</button>
+              <div class="spotlight-dots" id="spotlight-dots"></div>
+              <button class="spotlight-nav-btn next" id="spotlight-next" aria-label="Next book">›</button>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Moving Book Shelf Ribbon (Passed From Hand to Hand) -->
+  <section class="passing-shelf-section" aria-label="Books currently circulating in the community">
+    <div class="container">
+      <div class="passing-shelf-label">
+        <span class="passing-pulse-dot"></span>
+        <span class="passing-shelf-title">In Circulation Right Now • Passing From Reader to Reader</span>
+      </div>
+    </div>
+    <div class="marquee-wrapper">
+      <div class="marquee-track" id="marquee-track">
+        <!-- Rendered dynamically by app.js with infinite looping cards -->
       </div>
     </div>
   </section>
