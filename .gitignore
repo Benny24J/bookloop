@@ -2,7 +2,7 @@
 node_modules/
 package-lock.json
 
-# Environment variables (NEVER commit secrets)
+# Environment variables 
 .env
 .env.local
 .env.*.local
